@@ -1,0 +1,37 @@
+# Tipos corporais
+ectomorfo = "magro"
+mesomorfo = "atlético"
+endomorfo = "obeso"
+
+tipos_de_treinos = 3
+treinos_feitos = 0
+
+while True:
+    print("\nEscolha uma opção:")
+    print("1. Tipo corporal")
+    print("2. Peso")
+    print("3. Altura")
+    print("4. Objetivo")
+    print("5. Sair")
+
+    opcao = input("Digite o número da opção escolhida: ")
+
+    if opcao == "5":
+        print("Saindo do programa.")
+        break
+
+    # Processar as opções
+    if opcao == "1":
+        tipo_corporal = input("Digite seu tipo corporal (ectomorfo, mesomorfo, endomorfo): ")
+        print(f"Você escolheu: {tipo_corporal}")
+    elif opcao == "2":
+        peso = input("Digite seu peso: ")
+        print(f"Seu peso é: {peso}")
+    elif opcao == "3":
+        altura = input("Digite sua altura: ")
+        print(f"Sua altura é: {altura}")
+    elif opcao == "4":
+        objetivo = input("Digite seu objetivo: ")
+        print(f"Seu objetivo é: {objetivo}")
+    else:
+        print("Opção inválida. Tente novamente.")
