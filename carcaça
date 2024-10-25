@@ -1,37 +1,68 @@
 # Tipos corporais
-ectomorfo = "magro"
-mesomorfo = "atlético"
-endomorfo = "obeso"
+tipos_corpo = {
+    "ectomorfo": "magro",
+    "mesomorfo": "atlético",
+    "endomorfo": "obeso"
+}
 
-tipos_de_treinos = 3
-treinos_feitos = 0
+# Dicionário para armazenar informações do usuário
+ficha = {}
+exercicios = []
 
 while True:
     print("\nEscolha uma opção:")
-    print("1. Tipo corporal")
-    print("2. Peso")
-    print("3. Altura")
-    print("4. Objetivo")
-    print("5. Sair")
+    print("1. Preencher informações")
+    print("2. Adicionar exercício")
+    print("3. Ver ficha de treinamento")
+    print("4. Sair")
 
     opcao = input("Digite o número da opção escolhida: ")
 
-    if opcao == "5":
+    if opcao == "4":
         print("Saindo do programa.")
         break
 
-    # Processar as opções
+    # Preencher informações
     if opcao == "1":
         tipo_corporal = input("Digite seu tipo corporal (ectomorfo, mesomorfo, endomorfo): ")
-        print(f"Você escolheu: {tipo_corporal}")
-    elif opcao == "2":
+        if tipo_corporal in tipos_corpo:
+            ficha['tipo_corporal'] = tipo_corporal
+            print(f"Tipo corporal registrado: {tipo_corporal} ({tipos_corpo[tipo_corporal]})")
+        else:
+            print("Tipo corporal inválido.")
+
         peso = input("Digite seu peso: ")
-        print(f"Seu peso é: {peso}")
-    elif opcao == "3":
+        ficha['peso'] = peso
+
         altura = input("Digite sua altura: ")
-        print(f"Sua altura é: {altura}")
-    elif opcao == "4":
+        ficha['altura'] = altura
+
         objetivo = input("Digite seu objetivo: ")
-        print(f"Seu objetivo é: {objetivo}")
+        ficha['objetivo'] = objetivo
+
+        print("Informações preenchidas com sucesso!")
+
+    # Adicionar exercício
+    elif opcao == "2":
+        exercicio = input("Digite o nome do exercício: ")
+        series = input("Digite o número de séries: ")
+        repeticoes = input("Digite o número de repetições: ")
+        exercicios.append({'exercicio': exercicio, 'series': series, 'repeticoes': repeticoes})
+        print("Exercício adicionado com sucesso!")
+
+    # Ver ficha de treinamento
+    elif opcao == "3":
+        if ficha:
+            print("\nFicha de treinamento:")
+            for chave, valor in ficha.items():
+                print(f"{chave.capitalize()}: {valor}")
+            print("\nExercícios:")
+            if exercicios:
+                for i, ex in enumerate(exercicios, start=1):
+                    print(f"{i}. {ex['exercicio']} - {ex['series']} séries de {ex['repeticoes']} repetições")
+            else:
+                print("Nenhum exercício registrado ainda.")
+        else:
+            print("Nenhuma informação preenchida ainda.")
     else:
         print("Opção inválida. Tente novamente.")
