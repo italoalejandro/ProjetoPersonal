@@ -1,68 +1,123 @@
-# Tipos corporais
+# Dicionário para armazenar fichas de diferentes alunos
+# Cada chave será o nome do aluno, e o valor será sua ficha de treinamento
+fichas = {}
+
+# Tipos corporais com breve descrição
 tipos_corpo = {
     "ectomorfo": "magro",
     "mesomorfo": "atlético",
     "endomorfo": "obeso"
 }
 
-# Dicionário para armazenar informações do usuário
-ficha = {}
-exercicios = []
+def preencher_informacoes():
+    """
+    Função para preencher as informações básicas de um aluno.
+    Retorna um dicionário contendo o tipo corporal, peso, altura e objetivo do aluno.
+    """
+    ficha = {}  # Dicionário local para armazenar a ficha do aluno
 
-while True:
-    print("\nEscolha uma opção:")
-    print("1. Preencher informações")
-    print("2. Adicionar exercício")
-    print("3. Ver ficha de treinamento")
-    print("4. Sair")
-
-    opcao = input("Digite o número da opção escolhida: ")
-
-    if opcao == "4":
-        print("Saindo do programa.")
-        break
-
-    # Preencher informações
-    if opcao == "1":
-        tipo_corporal = input("Digite seu tipo corporal (ectomorfo, mesomorfo, endomorfo): ")
-        if tipo_corporal in tipos_corpo:
-            ficha['tipo_corporal'] = tipo_corporal
-            print(f"Tipo corporal registrado: {tipo_corporal} ({tipos_corpo[tipo_corporal]})")
-        else:
-            print("Tipo corporal inválido.")
-
-        peso = input("Digite seu peso: ")
-        ficha['peso'] = peso
-
-        altura = input("Digite sua altura: ")
-        ficha['altura'] = altura
-
-        objetivo = input("Digite seu objetivo: ")
-        ficha['objetivo'] = objetivo
-
-        print("Informações preenchidas com sucesso!")
-
-    # Adicionar exercício
-    elif opcao == "2":
-        exercicio = input("Digite o nome do exercício: ")
-        series = input("Digite o número de séries: ")
-        repeticoes = input("Digite o número de repetições: ")
-        exercicios.append({'exercicio': exercicio, 'series': series, 'repeticoes': repeticoes})
-        print("Exercício adicionado com sucesso!")
-
-    # Ver ficha de treinamento
-    elif opcao == "3":
-        if ficha:
-            print("\nFicha de treinamento:")
-            for chave, valor in ficha.items():
-                print(f"{chave.capitalize()}: {valor}")
-            print("\nExercícios:")
-            if exercicios:
-                for i, ex in enumerate(exercicios, start=1):
-                    print(f"{i}. {ex['exercicio']} - {ex['series']} séries de {ex['repeticoes']} repetições")
-            else:
-                print("Nenhum exercício registrado ainda.")
-        else:
-            print("Nenhuma informação preenchida ainda.")
+    tipo_corporal = input("Digite seu tipo corporal (ectomorfo, mesomorfo, endomorfo): ")
+    if tipo_corporal in tipos_corpo:
+        ficha['tipo_corporal'] = tipo_corporal
+        print(f"Tipo corporal registrado: {tipo_corporal} ({tipos_corpo[tipo_corporal]})")
     else:
-        print("Opção inválida. Tente novamente.")
+        print("Tipo corporal inválido.")
+        return None  # Retorna None caso o tipo corporal seja inválido
+
+    ficha['peso'] = input("Digite seu peso: ")
+    ficha['altura'] = input("Digite sua altura: ")
+    ficha['objetivo'] = input("Digite seu objetivo: ")
+    print("Informações preenchidas com sucesso!")
+    return ficha
+
+def adicionar_exercicio():
+    """
+    Função para adicionar um exercício à ficha do aluno.
+    Retorna um dicionário contendo o nome do exercício, número de séries e número de repetições.
+    """
+    exercicio = input("Digite o nome do exercício: ")
+    series = input("Digite o número de séries: ")
+    repeticoes = input("Digite o número de repetições: ")
+    print("Exercício adicionado com sucesso!")
+    return {'exercicio': exercicio, 'series': series, 'repeticoes': repeticoes}
+
+def salvar_ficha(nome_aluno, ficha, exercicios):
+    """
+    Função para salvar a ficha de um aluno no dicionário 'fichas'.
+    Cada entrada no dicionário terá o nome do aluno como chave,
+    e um dicionário contendo as informações e os exercícios como valor.
+    """
+    fichas[nome_aluno] = {
+        'informacoes': ficha,
+        'exercicios': exercicios
+    }
+    print(f"Ficha de {nome_aluno} salva com sucesso!")
+
+def ver_ficha(nome_aluno):
+    """
+    Função para exibir a ficha de um aluno específico.
+    Procura pelo nome do aluno no dicionário 'fichas' e exibe os detalhes da ficha.
+    """
+    if nome_aluno in fichas:
+        ficha = fichas[nome_aluno]
+        print("\nFicha de Treinamento:")
+        for chave, valor in ficha['informacoes'].items():
+            print(f"{chave.capitalize()}: {valor}")
+        print("\nExercícios:")
+        for i, ex in enumerate(ficha['exercicios'], start=1):
+            print(f"{i}. {ex['exercicio']} - {ex['series']} séries de {ex['repeticoes']} repetições")
+    else:
+        print("Nenhuma ficha encontrada para o nome informado.")
+
+def main():
+    """
+    Função principal para executar o menu do programa.
+    Permite ao usuário preencher informações, adicionar exercícios, salvar a ficha e visualizar fichas salvas.
+    """
+    exercicios = []
+    ficha = {}
+
+    while True:
+        print("\nEscolha uma opção:")
+        print("1. Preencher informações")
+        print("2. Adicionar exercício")
+        print("3. Salvar ficha de treinamento")
+        print("4. Ver ficha de um aluno")
+        print("5. Sair")
+
+        opcao = input("Digite o número da opção escolhida: ")
+
+        if opcao == "5":
+            print("Saindo do programa.")
+            break
+
+        elif opcao == "1":
+            ficha = preencher_informacoes()
+            if ficha is None:
+                ficha = {}
+
+        elif opcao == "2":
+            if ficha:
+                exercicio = adicionar_exercicio()
+                exercicios.append(exercicio)
+            else:
+                print("Preencha as informações primeiro.")
+
+        elif opcao == "3":
+            if ficha and exercicios:
+                nome_aluno = input("Digite o nome do aluno para salvar a ficha: ")
+                salvar_ficha(nome_aluno, ficha, exercicios)
+                ficha = {}  # Limpa as informações após salvar a ficha
+                exercicios = []  # Limpa os exercícios após salvar
+            else:
+                print("Preencha as informações e adicione exercícios antes de salvar a ficha.")
+
+        elif opcao == "4":
+            nome_aluno = input("Digite o nome do aluno para buscar a ficha: ")
+            ver_ficha(nome_aluno)
+
+        else:
+            print("Opção inválida. Tente novamente.")
+
+# Executa o programa
+main()
