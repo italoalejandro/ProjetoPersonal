@@ -101,7 +101,7 @@
         <label for="senha">Senha</label>
         <input type="password" id="senha" name="senha" required>
 
-        <button type="submit">Entrar</button>
+        <button onclick="alert('Login bem sucedido!')">Entrar</button>
     </form>
 
     <p>
